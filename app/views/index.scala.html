@@ -1,0 +1,28 @@
+@(images: List[Image], imageForm: Form[Image], requests: List[Request])
+@import helper._
+@main("IMACA - Image Capture") {
+    <h1>upload Here</h1>
+    @form(action = routes.Application.upload, 'enctype -> "multipart/form-data") {
+    @inputFile(imageForm("imageName"))
+    @select(imageForm("tag"),
+    options(Image.options),
+    '_default -> "--- Choose Tag ---",
+    '_label -> "Category Tag",
+    'required -> "required")
+    <p><input type="submit"></p>
+    }
+    <ul>
+      @for(image <- images) {
+	<li style="list-style-type:none; float:left;">
+          <div style="background:url(@routes.Assets.at("images/upload/")@image.imageName);width:240px;height:160px;background-size:cover;background-position:center;">
+	    <p style="padding:10px; background-color:#000;color:#FFF;opacity:0.5">@image.tag</p></div>
+	</li>
+      }
+    </ul>
+    <ul style="clear:both;">
+      <li>hoge</li>
+      @for(request <- requests) {
+	<li>@request.requestKey</li>
+      }
+    </ul>
+}
